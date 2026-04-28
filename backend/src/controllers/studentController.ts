@@ -305,16 +305,19 @@ export async function getStudentDashboard(req: Request, res: Response) {
     "user",
     "firstName lastName avatarUrl",
   );
+  const populatedUser = studentProfile?.user as
+    | { firstName?: string; lastName?: string; avatarUrl?: string }
+    | undefined;
 
   return res.json({
     student: {
       id: String(studentProfile?._id || req.params.id),
-      name: studentProfile?.user
-        ? `${studentProfile.user.firstName} ${studentProfile.user.lastName}`.trim()
+      name: populatedUser
+        ? `${populatedUser.firstName || ""} ${populatedUser.lastName || ""}`.trim()
         : "Student",
       grade: studentProfile?.grade || 0,
       board: studentProfile?.board || "",
-      avatarUrl: studentProfile?.avatarUrl || (studentProfile?.user as any)?.avatarUrl || "",
+      avatarUrl: studentProfile?.avatarUrl || populatedUser?.avatarUrl || "",
     },
     stats: {
       testsTaken,

@@ -10,7 +10,6 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["bun", "node"],
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]

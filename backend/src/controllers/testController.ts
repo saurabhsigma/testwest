@@ -195,15 +195,17 @@ export async function getTest(req: Request, res: Response) {
         { $sample: { size: questionCount } },
       ]);
 
+      const storedQuestions = questions.map((q: any) => ({
+        originalQuestionId: q._id,
+        type: q.type || "MCQ",
+        body: q.body,
+        options: q.options || [],
+        answer: q.answer,
+        explanation: q.explanation || "",
+      }));
+
       if (questions.length > 0) {
-        test.questions = questions.map((q: any) => ({
-          originalQuestionId: q._id,
-          type: q.type || "MCQ",
-          body: q.body,
-          options: q.options || [],
-          answer: q.answer,
-          explanation: q.explanation || "",
-        }));
+        (test as any).questions = storedQuestions;
         test.status = "In progress";
         await test.save();
       } else {
@@ -221,7 +223,7 @@ export async function getTest(req: Request, res: Response) {
           });
           
           if (generatedQuestions && generatedQuestions.length > 0) {
-            test.questions = generatedQuestions.map((q: any) => ({
+            (test as any).questions = generatedQuestions.map((q: any) => ({
               originalQuestionId: q._id,
               type: q.type || "MCQ",
               body: q.body,
