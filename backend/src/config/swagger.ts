@@ -9,10 +9,10 @@ const options = {
       description: "Backend API documentation for Test West project",
     },
     servers: [
-      {
-        url: process.env.BASE_URL || `http://localhost:${process.env.PORT || 8000}`,
-      },
-    ],
+  {
+    url: "https://testwest.onrender.com",
+  },
+],
   },
   apis: ["src/**/*.ts", "src/**/*.tsx"],
 };
