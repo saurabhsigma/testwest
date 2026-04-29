@@ -46,10 +46,87 @@ const updateSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /questions:
+ *   get:
+ *     summary: List questions
+ *     tags:
+ *       - Questions
+ *     responses:
+ *       '200':
+ *         description: Array of questions
+ */
 router.get("/", requireAuth, listQuestions);
+
+/**
+ * @openapi
+ * /questions:
+ *   post:
+ *     summary: Create a question (teacher or school role required)
+ *     tags:
+ *       - Questions
+ *     responses:
+ *       '201':
+ *         description: Question created
+ */
 router.post("/", requireAuth, requireRole(["SCHOOL", "TEACHER"]), validate(createSchema), createQuestion);
+
+/**
+ * @openapi
+ * /questions/{id}:
+ *   get:
+ *     summary: Get a question by ID
+ *     tags:
+ *       - Questions
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Question object
+ */
 router.get("/:id", requireAuth, getQuestion);
+
+/**
+ * @openapi
+ * /questions/{id}:
+ *   patch:
+ *     summary: Update a question
+ *     tags:
+ *       - Questions
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Updated question
+ */
 router.patch("/:id", requireAuth, requireRole(["SCHOOL", "TEACHER"]), validate(updateSchema), updateQuestion);
+
+/**
+ * @openapi
+ * /questions/{id}:
+ *   delete:
+ *     summary: Delete a question
+ *     tags:
+ *       - Questions
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '204':
+ *         description: Deleted
+ */
 router.delete("/:id", requireAuth, requireRole(["SCHOOL", "TEACHER"]), deleteQuestion);
 
 export default router;

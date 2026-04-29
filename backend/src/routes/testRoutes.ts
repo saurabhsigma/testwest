@@ -36,6 +36,38 @@ const responseSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /tests:
+ *   get:
+ *     summary: List tests for the authenticated user
+ *     tags:
+ *       - Tests
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number for pagination
+ *     responses:
+ *       '200':
+ *         description: A list of tests
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tests:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       '400':
+ *         description: Bad request
+ *       '401':
+ *         description: Missing or invalid token
+ *       '500':
+ *         description: Server error
+ */
 router.get("/", requireAuth, listTests);
 router.post("/", requireAuth, validate(createSchema), createTest);
 router.get("/:id", requireAuth, getTest);

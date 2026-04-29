@@ -17,6 +17,8 @@ import curriculumRoutes from "./routes/curriculumRoutes";
 import questionRoutes from "./routes/questionRoutes";
 import testRoutes from "./routes/testRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger";
 
 const app = express();
 
@@ -41,6 +43,9 @@ app.use(limiter);
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
+
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);

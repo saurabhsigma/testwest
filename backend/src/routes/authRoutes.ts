@@ -40,8 +40,66 @@ const loginSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       '201':
+ *         description: User created
+ *       '400':
+ *         description: Validation error
+ */
 router.post("/register", validate(registerSchema), register);
+
+/**
+ * @openapi
+ * /auth/login:
+ *   post:
+ *     summary: Login and receive a JWT
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Login successful, returns token
+ *       '401':
+ *         description: Invalid credentials
+ */
 router.post("/login", validate(loginSchema), login);
+
+/**
+ * @openapi
+ * /auth/me:
+ *   get:
+ *     summary: Get current authenticated user
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       '200':
+ *         description: Current user object
+ *       '401':
+ *         description: Missing or invalid token
+ */
 router.get("/me", requireAuth, me);
 
 export default router;

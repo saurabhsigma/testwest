@@ -11,6 +11,8 @@
     "lint": "eslint src/**/*.ts --fix"
   },
   "dependencies": {
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3",
     "bcryptjs": "^3.0.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/bun": "latest",

@@ -64,12 +64,131 @@ const updateSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /students:
+ *   get:
+ *     summary: List students (requires auth)
+ *     tags:
+ *       - Students
+ *     responses:
+ *       '200':
+ *         description: Array of students
+ *       '401':
+ *         description: Missing or invalid token
+ */
 router.get("/", requireAuth, listStudents);
+
+/**
+ * @openapi
+ * /students:
+ *   post:
+ *     summary: Create a student (school role required)
+ *     tags:
+ *       - Students
+ *     responses:
+ *       '201':
+ *         description: Student created
+ *       '400':
+ *         description: Validation error
+ */
 router.post("/", requireAuth, requireRole(["SCHOOL"]), validate(createSchema), createStudent);
+
+/**
+ * @openapi
+ * /students/{id}:
+ *   get:
+ *     summary: Get a student by ID
+ *     tags:
+ *       - Students
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Student object
+ *       '404':
+ *         description: Not found
+ */
 router.get("/:id", requireAuth, getStudent);
+
+/**
+ * @openapi
+ * /students/{id}:
+ *   patch:
+ *     summary: Update a student by ID
+ *     tags:
+ *       - Students
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Updated student
+ */
 router.patch("/:id", requireAuth, validate(updateSchema), updateStudent);
+
+/**
+ * @openapi
+ * /students/{id}:
+ *   delete:
+ *     summary: Delete a student (school role required)
+ *     tags:
+ *       - Students
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '204':
+ *         description: Deleted
+ */
 router.delete("/:id", requireAuth, requireRole(["SCHOOL"]), deleteStudent);
+
+/**
+ * @openapi
+ * /students/{id}/tests:
+ *   get:
+ *     summary: List tests for a student
+ *     tags:
+ *       - Students
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Array of tests
+ */
 router.get("/:id/tests", requireAuth, listStudentTests);
+
+/**
+ * @openapi
+ * /students/{id}/dashboard:
+ *   get:
+ *     summary: Get student dashboard data
+ *     tags:
+ *       - Students
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Dashboard data
+ */
 router.get("/:id/dashboard", requireAuth, getStudentDashboard);
 
 export default router;

@@ -86,3 +86,17 @@ declare module "helmet" {
   const helmet: (...args: unknown[]) => unknown;
   export default helmet;
 }
+
+declare module "swagger-jsdoc" {
+  const swaggerJSDoc: (opts: any) => any;
+  export default swaggerJSDoc;
+}
+
+declare module "swagger-ui-express" {
+  import { RequestHandler } from "express";
+  const swaggerUi: {
+    serve: RequestHandler[];
+    setup: (spec: any, options?: any) => RequestHandler;
+  };
+  export default swaggerUi;
+}
