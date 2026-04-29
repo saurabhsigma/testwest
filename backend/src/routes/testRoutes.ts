@@ -69,10 +69,97 @@ const responseSchema = z.object({
  *         description: Server error
  */
 router.get("/", requireAuth, listTests);
+
+/**
+ * @openapi
+ * /tests:
+ *   post:
+ *     summary: Create a test
+ *     tags: [Tests]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TestCreateRequest'
+ *     responses:
+ *       '201': { description: Test created }
+ */
 router.post("/", requireAuth, validate(createSchema), createTest);
+
+/**
+ * @openapi
+ * /tests/{id}:
+ *   get:
+ *     summary: Get a test by ID
+ *     tags: [Tests]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Test object }
+ */
 router.get("/:id", requireAuth, getTest);
+
+/**
+ * @openapi
+ * /tests/{id}/responses/{qid}:
+ *   patch:
+ *     summary: Autosave a test response
+ *     tags: [Tests]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TestResponsePatchRequest'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *       - in: path
+ *         name: qid
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Response saved }
+ */
 router.patch("/:id/responses/:qid", requireAuth, validate(responseSchema), autosaveResponse);
+
+/**
+ * @openapi
+ * /tests/{id}/submit:
+ *   post:
+ *     summary: Submit a test
+ *     tags: [Tests]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Test submitted }
+ */
 router.post("/:id/submit", requireAuth, submitTest);
+
+/**
+ * @openapi
+ * /tests/generate-ai:
+ *   post:
+ *     summary: Generate an AI test series
+ *     tags: [Tests]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TestCreateRequest'
+ *     responses:
+ *       '200': { description: AI generated test series }
+ */
 router.post("/generate-ai", requireAuth, validate(createSchema), generateTestSeries);
 
 export default router;

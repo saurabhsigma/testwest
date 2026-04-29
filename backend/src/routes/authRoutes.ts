@@ -52,7 +52,7 @@ const loginSchema = z.object({
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/AuthRegisterRequest'
  *     responses:
  *       '201':
  *         description: User created
@@ -73,12 +73,7 @@ router.post("/register", validate(registerSchema), register);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
+ *             $ref: '#/components/schemas/AuthLoginRequest'
  *     responses:
  *       '200':
  *         description: Login successful, returns token

@@ -70,9 +70,75 @@ const updateSchema = z.object({
  *       '200': { description: Assignment list }
  */
 router.get("/", requireAuth, listAssignments);
+/**
+ * @openapi
+ * /assignments/{id}/results:
+ *   get:
+ *     summary: Get assignment results
+ *     tags: [Assignments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Assignment results }
+ */
 router.get("/:id/results", requireAuth, requireRole(["SCHOOL", "TEACHER"]), getAssignmentResults);
+
+/**
+ * @openapi
+ * /assignments:
+ *   post:
+ *     summary: Create an assignment
+ *     tags: [Assignments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AssignmentCreateRequest'
+ *     responses:
+ *       '201': { description: Assignment created }
+ */
 router.post("/", requireAuth, requireRole(["SCHOOL", "TEACHER"]), validate(createSchema), createAssignment);
+
+/**
+ * @openapi
+ * /assignments/{id}:
+ *   patch:
+ *     summary: Update an assignment
+ *     tags: [Assignments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AssignmentUpdateRequest'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Assignment updated }
+ */
 router.patch("/:id", requireAuth, requireRole(["SCHOOL", "TEACHER"]), validate(updateSchema), updateAssignment);
+
+/**
+ * @openapi
+ * /assignments/{id}:
+ *   delete:
+ *     summary: Delete an assignment
+ *     tags: [Assignments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '204': { description: Deleted }
+ */
 router.delete("/:id", requireAuth, requireRole(["SCHOOL", "TEACHER"]), deleteAssignment);
 
 export default router;

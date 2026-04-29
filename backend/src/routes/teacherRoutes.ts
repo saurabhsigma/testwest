@@ -71,6 +71,22 @@ const updateSchema = z.object({
  *       '200': { description: Teacher list }
  */
 router.get("/", requireAuth, listTeachers);
+/**
+ * @openapi
+ * /teachers:
+ *   post:
+ *     summary: Create a teacher (school role required)
+ *     tags: [Teachers]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TeacherCreateRequest'
+ *     responses:
+ *       '201': { description: Teacher created }
+ *       '400': { description: Validation error }
+ */
 router.post("/", requireAuth, requireRole(["SCHOOL"]), validate(createSchema), createTeacher);
 
 /**
@@ -88,7 +104,42 @@ router.post("/", requireAuth, requireRole(["SCHOOL"]), validate(createSchema), c
  *       '200': { description: Teacher object }
  */
 router.get("/:id", requireAuth, getTeacher);
+/**
+ * @openapi
+ * /teachers/{id}:
+ *   patch:
+ *     summary: Update a teacher
+ *     tags: [Teachers]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TeacherUpdateRequest'
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Teacher updated }
+ */
 router.patch("/:id", requireAuth, validate(updateSchema), updateTeacher);
+
+/**
+ * @openapi
+ * /teachers/{id}:
+ *   delete:
+ *     summary: Delete a teacher
+ *     tags: [Teachers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '204': { description: Deleted }
+ */
 router.delete("/:id", requireAuth, requireRole(["SCHOOL"]), deleteTeacher);
 
 /**

@@ -86,6 +86,12 @@ router.get("/", requireAuth, listStudents);
  *     summary: Create a student (school role required)
  *     tags:
  *       - Students
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StudentCreateRequest'
  *     responses:
  *       '201':
  *         description: Student created
@@ -122,6 +128,12 @@ router.get("/:id", requireAuth, getStudent);
  *     summary: Update a student by ID
  *     tags:
  *       - Students
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StudentUpdateRequest'
  *     parameters:
  *       - in: path
  *         name: id

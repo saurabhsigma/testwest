@@ -66,6 +66,12 @@ router.get("/", requireAuth, listQuestions);
  *     summary: Create a question (teacher or school role required)
  *     tags:
  *       - Questions
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/QuestionCreateRequest'
  *     responses:
  *       '201':
  *         description: Question created
@@ -98,6 +104,12 @@ router.get("/:id", requireAuth, getQuestion);
  *     summary: Update a question
  *     tags:
  *       - Questions
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/QuestionUpdateRequest'
  *     parameters:
  *       - in: path
  *         name: id

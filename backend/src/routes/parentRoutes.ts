@@ -77,6 +77,12 @@ router.get("/", requireAuth, listParents);
  *   post:
  *     summary: Create a parent
  *     tags: [Parents]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ParentCreateRequest'
  *     responses:
  *       '201': { description: Parent created }
  */
@@ -140,6 +146,12 @@ router.get("/:id", requireAuth, getParent);
  *   patch:
  *     summary: Update a parent
  *     tags: [Parents]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ParentUpdateRequest'
  *     parameters:
  *       - in: path
  *         name: id
@@ -156,6 +168,12 @@ router.patch("/:id", requireAuth, validate(updateSchema), updateParent);
  *   post:
  *     summary: Verify a student for linking
  *     tags: [Parents]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ParentVerifyStudentRequest'
  *     parameters:
  *       - in: path
  *         name: id
@@ -172,6 +190,12 @@ router.post("/:id/verify-student", requireAuth, validate(verifyStudentSchema), v
  *   post:
  *     summary: Link a student to a parent
  *     tags: [Parents]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ParentLinkStudentRequest'
  *     parameters:
  *       - in: path
  *         name: id
