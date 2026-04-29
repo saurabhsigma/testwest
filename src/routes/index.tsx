@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, GraduationCap, Users, Sparkles, Target, BarChart3 } from "lucide-react";
+import { ArrowRight, GraduationCap, Users, Sparkles, Target, BarChart3, School, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -40,22 +40,24 @@ function Landing() {
           </div>
         </Link>
         <nav className="hidden items-center gap-2 md:flex">
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/student">Student</Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/parent">Parent</Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/teacher">Teacher</Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/solo">Solo</Link>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/login">Log in</Link>
           </Button>
           <Button asChild size="sm">
-            <Link to="/pricing">Pricing</Link>
+            <Link to="/signup">Sign up</Link>
           </Button>
+          
+          
+          
         </nav>
+        <div className="flex items-center gap-2 md:hidden">
+          <Button asChild variant="outline" size="sm">
+            <Link to="/login">Log in</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link to="/signup">Sign up</Link>
+          </Button>
+        </div>
       </header>
 
       {/* Hero */}
@@ -138,6 +140,61 @@ function Landing() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Auth by role */}
+      <section className="mx-auto max-w-7xl px-4 pb-8 md:px-8 md:pb-12">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-tight md:text-2xl">Login or signup by role</h2>
+          <p className="text-xs text-muted-foreground md:text-sm">Choose your role and continue</p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            {
+              icon: GraduationCap,
+              role: "Student",
+              blurb: "Practice tests and track progress.",
+            },
+            {
+              icon: Users,
+              role: "Parent",
+              blurb: "Monitor your child's learning journey.",
+            },
+            {
+              icon: UserRound,
+              role: "Teacher",
+              blurb: "Create assessments and review class insights.",
+            },
+            {
+              icon: School,
+              role: "School",
+              blurb: "Manage students, teachers, and classes.",
+            },
+            {
+              icon: Sparkles,
+              role: "Solo",
+              blurb: "Independent learning with smart test flow.",
+            },
+          ].map((r) => (
+            <Card key={r.role} className="transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-accent-foreground">
+                  <r.icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-3 text-base font-semibold">{r.role}</h3>
+                <p className="mt-1 min-h-10 text-xs text-muted-foreground">{r.blurb}</p>
+                <div className="mt-4 grid grid-cols-1 gap-2">
+                  <Button asChild size="sm" className="w-full">
+                    <Link to="/signup">Sign up as {r.role}</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="w-full">
+                    <Link to="/login">Log in as {r.role}</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
