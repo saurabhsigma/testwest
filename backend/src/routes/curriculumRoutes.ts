@@ -11,6 +11,14 @@ import {
 
 const router = Router();
 
+/** @openapi
+ * /curriculum/boards:
+ *   get:
+ *     summary: List boards
+ *     tags: [Curriculum]
+ *     responses:
+ *       '200': { description: Board list }
+ */
 router.get("/boards", getBoards);
 router.get("/grades", getGrades);
 router.get("/subjects", getSubjects);

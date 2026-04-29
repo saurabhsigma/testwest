@@ -8,6 +8,20 @@ import mongoose from "mongoose";
 const router = Router();
 
 // Student Dashboard Data
+/**
+ * @openapi
+ * /analytics/students/{id}/dashboard:
+ *   get:
+ *     summary: Get student analytics dashboard
+ *     tags: [Analytics]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Analytics payload }
+ */
 router.get("/students/:id/dashboard", requireAuth, async (req, res) => {
   try {
     const studentId = new mongoose.Types.ObjectId(req.params.id);
@@ -84,6 +98,20 @@ router.get("/students/:id/dashboard", requireAuth, async (req, res) => {
 });
 
 // Parent's linked children
+/**
+ * @openapi
+ * /analytics/parents/{id}/children:
+ *   get:
+ *     summary: Get parent children analytics
+ *     tags: [Analytics]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Children list }
+ */
 router.get("/parents/:id/children", requireAuth, async (req, res) => {
   try {
     const parentProfile = await ParentProfile.findOne({ user: req.params.id }).populate("children");
@@ -104,6 +132,24 @@ router.get("/parents/:id/children", requireAuth, async (req, res) => {
 });
 
 // Parent Dashboard Data
+/**
+ * @openapi
+ * /analytics/parents/{id}/children/{childId}/dashboard:
+ *   get:
+ *     summary: Get child dashboard for a parent
+ *     tags: [Analytics]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *       - in: path
+ *         name: childId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Dashboard data }
+ */
 router.get("/parents/:id/children/:childId/dashboard", requireAuth, async (req, res) => {
   try {
     const childId = new mongoose.Types.ObjectId(req.params.childId);

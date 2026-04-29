@@ -70,8 +70,32 @@ const createStudentSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /schools:
+ *   get:
+ *     summary: List schools
+ *     tags: [Schools]
+ *     responses:
+ *       '200': { description: School list }
+ */
 router.get("/", requireAuth, listSchools);
 router.post("/", requireAuth, requireRole(["SCHOOL"]), validate(schoolSchema), createSchool);
+
+/**
+ * @openapi
+ * /schools/{id}:
+ *   get:
+ *     summary: Get a school by ID
+ *     tags: [Schools]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: School object }
+ */
 router.get("/:id", requireAuth, getSchool);
 router.patch("/:id", requireAuth, requireRole(["SCHOOL"]), validate(schoolUpdateSchema), updateSchool);
 router.delete("/:id", requireAuth, requireRole(["SCHOOL"]), deleteSchool);

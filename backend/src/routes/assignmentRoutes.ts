@@ -60,6 +60,15 @@ const updateSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /assignments:
+ *   get:
+ *     summary: List assignments
+ *     tags: [Assignments]
+ *     responses:
+ *       '200': { description: Assignment list }
+ */
 router.get("/", requireAuth, listAssignments);
 router.get("/:id/results", requireAuth, requireRole(["SCHOOL", "TEACHER"]), getAssignmentResults);
 router.post("/", requireAuth, requireRole(["SCHOOL", "TEACHER"]), validate(createSchema), createAssignment);

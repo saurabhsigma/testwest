@@ -61,11 +61,50 @@ const updateSchema = z.object({
   }),
 });
 
+/**
+ * @openapi
+ * /teachers:
+ *   get:
+ *     summary: List teachers
+ *     tags: [Teachers]
+ *     responses:
+ *       '200': { description: Teacher list }
+ */
 router.get("/", requireAuth, listTeachers);
 router.post("/", requireAuth, requireRole(["SCHOOL"]), validate(createSchema), createTeacher);
+
+/**
+ * @openapi
+ * /teachers/{id}:
+ *   get:
+ *     summary: Get a teacher by ID
+ *     tags: [Teachers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Teacher object }
+ */
 router.get("/:id", requireAuth, getTeacher);
 router.patch("/:id", requireAuth, validate(updateSchema), updateTeacher);
 router.delete("/:id", requireAuth, requireRole(["SCHOOL"]), deleteTeacher);
+
+/**
+ * @openapi
+ * /teachers/{id}/stats:
+ *   get:
+ *     summary: Get teacher stats
+ *     tags: [Teachers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       '200': { description: Teacher stats }
+ */
 router.get("/:id/stats", requireAuth, getTeacherStats);
 router.get("/:id/classes", requireAuth, getTeacherClasses);
 router.get("/:id/students", requireAuth, getTeacherStudents);
